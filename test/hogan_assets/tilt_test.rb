@@ -22,23 +22,23 @@ module HoganAssets
       path = 'path/to/template.mustache'
       template = HoganAssets::Tilt.new(path) { "This is {{mustache}}" }
       assert_equal template.render(scope(path), {}),
-        %Q~new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }});~
+        %Q~new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "", Hogan, {});~
     end
 
     def test_hamstache_render
       path = 'path/to/template.hamstache'
       template = HoganAssets::Tilt.new(path) { "%p This is {{hamstache}}" }
       assert_equal template.render(scope(path), {}),
-        %Q~new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p>This is \");t.b(t.v(t.f(\"hamstache\",c,p,0)));t.b(\"</p>\");t.b(\"\\n\");return t.fl(); },partials: {}, subs: {  }});~
+        %Q~new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p>This is \");t.b(t.v(t.f(\"hamstache\",c,p,0)));t.b(\"</p>\");t.b(\"\\n\");return t.fl(); },partials: {}, subs: {  }}, "", Hogan, {});~
     end
 
-    # def test_render_with_lambdas
-    #   path = 'path/to/template.mustache'
-    #   HoganAssets::Config.lambda_support = true
-    #   template = HoganAssets::Tilt.new(path) { "This is {{mustache}}" }
-    #   assert_equal template.render(scope(path), {}),
-    #     %Q~new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "This is {{mustache}}");~
-    # end
+    def test_render_with_lambdas
+      path = 'path/to/template.mustache'
+      HoganAssets::Config.lambda_support = true
+      template = HoganAssets::Tilt.new(path) { "This is {{mustache}}" }
+      assert_equal template.render(scope(path), {}),
+        %Q~new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "This is {{mustache}}", Hogan, {});~
+    end
 
 
     # def test_render

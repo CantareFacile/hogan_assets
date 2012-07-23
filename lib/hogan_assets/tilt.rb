@@ -27,8 +27,8 @@ module HoganAssets
       #   this.HoganTemplates || (this.HoganTemplates = {});
       #   this.HoganTemplates[#{template_name}] = new Hogan.Template(#{compiled_template}, #{text.inspect}, Hogan, {});
       # TEMPLATE
-
-      "new Hogan.Template(#{compiled_template});"
+      text = '' unless HoganAssets::Config.lambda_support?
+      "new Hogan.Template(#{compiled_template}, #{text.inspect}, Hogan, {});"
     end
 
     protected
