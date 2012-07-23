@@ -4,7 +4,7 @@
 
 **hogan.js** is a templating engine developed at [Twitter](http://twitter.com) that follows the **mustache** spec and compiles the templates to JavaScript. The first bit is *cool*, since **mustache** is *cool*. The second bit is **awesome and full of win** because we can now compile our **mustache** templates on the server using the asset pipeline/sprockets.
 
-This gem contains **hogan.js v1.0.5**
+This gem contains **hogan.js v3.0.0**
 
 ## Installation
 
@@ -24,12 +24,12 @@ Require `hogan.js` somewhere in your JavaScript manifest, for example in `applic
 
     //= require hogan.js
 
-Locate your `.mustache` templates with your other JavaScript assets, usually in `app/assets/templates` or `app/assets/javascripts/templates`.
+Locate your `.mustache` templates with your other JavaScript assets, usually in `app/assets/javascripts/templates`.
 Require your templates with `require_tree`:
 
-    //= require_tree templates
+    //= require_tree ./templates
 
-Templates are named for the sub-path below `require_tree`. For example, the file `app/assets/javascripts/templates/pages/person.mustache` will be named `pages/person`.
+Templates are named for the sub-path from your manifest with `require_tree`. For example, the file `app/assets/javascripts/templates/pages/person.mustache` will be named `templates/pages/person`. _(TODO: make this nicer)_
 
 ### Installation with sprockets
 
@@ -45,11 +45,45 @@ Require `hogan.js` somewhere in your JavaScript.
 
 *TODO* Templates?
 
+## Hamstache!
+
+_hamstache_ is the quite popular combination of `haml` and `mustache`, a more robust solution exists using [haml_assets](https://github.com/infbio/haml_assets), but if all you want is nicer markup, you need to take these two additional steps:
+
+Add this line to your `Gemfile`:
+
+    group :assets do
+      gem 'haml'
+    end
+
+And then execute:
+
+    $ bundle
+
+## Configuration
+
+### Template Extensions
+
+**HoganAssets** recognizes templates ending in `.mustache` and if you have haml available, `.hamstache`. You can change the template extensions by setting the `template_extensions` configuration option in an initializer:
+
+    HoganAssets::Config.configure do |config|
+      config.template_extensions = %w(mustache hamstache stache)
+    end
+
+### Lambda Support
+
+**HoganAssets** supports **mustache** lambdas. Set the `lambda_support` option to true to enable lambdas for your templates. This will include the raw template text as part of the compiled template; each template will be correspondingly larger.
+
+*TODO* Should this be on by default?
+
+    HoganAssets::Config.configure do |config|
+      config.lambda_support = true
+    end
+
 ## Usage
 
 Templates are compiled to a global JavaScript object named `HoganTemplates`. To render `pages/person`:
 
-    HoganTemplates['pages/person'].render(context, partials);
+    HoganTemplates['templates/pages/person'].render(context, partials);
 
 # Author
 
@@ -57,8 +91,11 @@ I made this because I <3 **mustache** and want to use it in Rails. Follow me on 
 
 # Contributors
 
-* Matthew Nelson (@mdavidn)     : Remove unnecessary template source
-* Jack Lawson    (@ajacksified) : Configurable file extension
+* @mdavidn     (Matthew Nelson)  :  Remove unnecessary template source
+* @ajacksified (Jack Lawson)     :  Configurable file extension
+* @mikesmullin (Mike Smullin)    :  hamstache support
+* @gleuch      (Greg Leuch)      :  Mustache lambdas
+* @lautis      (Ville Lautanala) :  hamstache fix
 
 ## Contributing
 
