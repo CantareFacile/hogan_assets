@@ -13,8 +13,6 @@
  *  limitations under the License.
  */
 
-
-
 var Hogan = {};
 
 (function (Hogan, useArrayBuffer) {
@@ -73,7 +71,7 @@ var Hogan = {};
       this.partials[symbol].base = template;
 
       if (partial.subs) {
-        template = createSpecializedPartial(template, partial.subs, partial.partials);
+        template = createSpecializedPartial(template, partial.subs, partial.partials, this.text);
       }
 
       this.partials[symbol].instance = template;
@@ -134,16 +132,16 @@ var Hogan = {};
           cx = null;
 
       if (key === '.' && isArray(ctx[ctx.length - 2])) {
-        return ctx[ctx.length - 1];
-      }
-
-      for (var i = 1; i < names.length; i++) {
-        if (val && typeof val == 'object' && val[names[i]] != null) {
-          cx = val;
-          val = val[names[i]];
-        } else {
-          val = '';
-        }
+        val = ctx[ctx.length - 1];
+      } else {
+          for (var i = 1; i < names.length; i++) {
+            if (val && typeof val == 'object' && val[names[i]] != null) {
+              cx = val;
+              val = val[names[i]];
+            } else {
+              val = '';
+            }
+          }
       }
 
       if (returnFound && !val) {
@@ -217,14 +215,16 @@ var Hogan = {};
 
     // method replace section
     ms: function(func, ctx, partials, inverted, start, end, tags) {
-      var cx = ctx[ctx.length - 1],
+      var textSource,
+          cx = ctx[ctx.length - 1],
           result = func.call(cx);
 
       if (typeof result == 'function') {
         if (inverted) {
           return true;
         } else {
-          return this.ls(result, cx, partials, this.text.substring(start, end), tags);
+          textSource = (this.activeSub && this.subsText[this.activeSub]) ? this.subsText[this.activeSub] : this.text;
+          return this.ls(result, cx, partials, textSource.substring(start, end), tags);
         }
       }
 
@@ -246,13 +246,15 @@ var Hogan = {};
     sub: function(name, context, partials, indent) {
       var f = this.subs[name];
       if (f) {
+        this.activeSub = name;
         f(context, partials, this, indent);
+        this.activeSub = false;
       }
     }
 
   };
 
-  function createSpecializedPartial(instance, subs, partials) {
+  function createSpecializedPartial(instance, subs, partials, childText) {
     function PartialTemplate() {};
     PartialTemplate.prototype = instance;
     function Substitutions() {};
@@ -260,10 +262,12 @@ var Hogan = {};
     var key;
     var partial = new PartialTemplate();
     partial.subs = new Substitutions();
+    partial.subsText = {};  //hehe. substext.
     partial.ib();
 
     for (key in subs) {
       partial.subs[key] = subs[key];
+      partial.subsText[key] = childText;
     }
 
     for (key in partials) {
@@ -704,4 +708,3 @@ var Hogan = {};
     return this.cache[key] = template;
   };
 })(typeof exports !== 'undefined' ? exports : Hogan);
-
