@@ -29,10 +29,10 @@ module HoganAssets
 
       # Only emit the source template if we are using lambdas
       text = '' unless HoganAssets::Config.lambda_support?
-      <<-TEMPLATE
-        this.#{template_namespace} || (this.#{template_namespace} = {});
-        this.#{template_namespace}[#{template_path.name}] = new Hogan.Template(#{compiled_template}, #{text.inspect}, Hogan, {});
-      TEMPLATE
+      output = []
+      output << "this.#{template_namespace} || (this.#{template_namespace} = {});" unless HoganAssets::Config.skip_initialize_namespace?
+      output << "this.#{template_namespace}[#{template_path.name}] = new Hogan.Template(#{compiled_template}, #{text.inspect}, Hogan, {});"
+      output.join('')
     end
 
     protected
