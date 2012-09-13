@@ -33,7 +33,7 @@ module HoganAssets
     end
 
     def template_namespace
-      @template_namespace ||= 'HoganTemplates'
+      @template_namespace ||= 'JST'
     end
 
     def template_extensions
