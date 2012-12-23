@@ -329,5 +329,13 @@ var Hogan = {};
   var isArray = Array.isArray || function(a) {
     return Object.prototype.toString.call(a) === '[object Array]';
   };
+  
+  // AMD define happens at the end for compatibility with AMD loaders
+  // that don't enforce next-turn semantics on modules.
+  if (typeof define === 'function' && define.amd) {
+    define('hogan', function() {
+      return Hogan;
+    });
+  }
 
 })(typeof exports !== 'undefined' ? exports : Hogan);
