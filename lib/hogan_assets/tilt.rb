@@ -27,13 +27,10 @@ module HoganAssets
       compiled_template = Hogan.compile(text)
       template_name = scope.logical_path.inspect
 
-      # Only emit the source template if we are using lambdas
-      text = '' unless HoganAssets::Config.lambda_support?
       output = []
-      output << "(function() {"
-      output << "this.#{template_namespace} || (this.#{template_namespace} = {});" unless HoganAssets::Config.skip_initialize_namespace?
-      output << "this.#{template_namespace}[#{template_path.name}] = new Hogan.Template(#{compiled_template}, #{text.inspect}, Hogan, {});"
-      output << "}).call(this);"
+      output << "define(#{template_path.name}, [\"hogan\"], function(Hogan) {"
+      output << "  return new Hogan.Template(#{compiled_template});"
+      output << "});"
       output.join("\n")
     end
 

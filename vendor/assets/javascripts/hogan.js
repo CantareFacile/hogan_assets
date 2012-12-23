@@ -559,7 +559,8 @@ var Hogan = {};
   }
 
   Hogan.stringify = function(codeObj, text, options) {
-    return "{code: function (c,p,i) { " + Hogan.wrapMain(codeObj.code) + " }," + stringifyPartials(codeObj) +  "}";
+    // return "{code: function (c,p,i) { " + Hogan.wrapMain(codeObj.code) + " }," + stringifyPartials(codeObj) +  "}";
+    return "{code: function (c,p,i) { " + Hogan.wrapMain(codeObj.code) + " }}";
   }
 
   var serialNo = 0;

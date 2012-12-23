@@ -30,10 +30,9 @@ module HoganAssets
       template = HoganAssets::Tilt.new(scope.s_path) { "This is {{mustache}}" }
 
       assert_equal template.render(scope, {}), %Q~
-(function() {
-this.JST || (this.JST = {});
-this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "", Hogan, {});
-}).call(this);
+define("path/to/template", ["hogan"], function(Hogan) {
+  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+});
 ~.strip
     end
 
@@ -43,10 +42,9 @@ this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { va
       template = HoganAssets::Tilt.new(scope.s_path) { "%p This is {{hamstache}}" }
 
       assert_equal template.render(scope, {}), %Q~
-(function() {
-this.JST || (this.JST = {});
-this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p>This is \");t.b(t.v(t.f(\"hamstache\",c,p,0)));t.b(\"</p>\");return t.fl(); },partials: {}, subs: {  }}, \"\", Hogan, {});
-}).call(this);
+define("path/to/template", ["hogan"], function(Hogan) {
+  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p>This is \");t.b(t.v(t.f(\"hamstache\",c,p,0)));t.b(\"</p>\");return t.fl(); }});
+});
 ~.strip
     end
 
@@ -60,10 +58,9 @@ this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { va
       template = HoganAssets::Tilt.new(scope.s_path) { "This is {{mustache}}" }
 
       assert_equal template.render(scope, {}), %Q~
-(function() {
-this.JST || (this.JST = {});
-this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "This is {{mustache}}", Hogan, {});
-}).call(this);
+define("path/to/template", ["hogan"], function(Hogan) {
+  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+});
 ~.strip
     end
 
@@ -79,10 +76,9 @@ this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { va
         </p>
         " }
       assert_equal template.render(scope, {}), %Q~
-(function() {
-this.JST || (this.JST = {});
-this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p> This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));t.b(\" </p>\");return t.fl(); },partials: {}, subs: {  }}, "", Hogan, {});
-}).call(this);
+define("path/to/template", ["hogan"], function(Hogan) {
+  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p> This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));t.b(\" </p>\");return t.fl(); }});
+});
 ~.strip
     end
 
@@ -96,10 +92,9 @@ this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { va
       template = HoganAssets::Tilt.new(scope.s_path) { "This is {{mustache}}" }
 
       assert_equal template.render(scope, {}), %Q~
-(function() {
-this.JST || (this.JST = {});
-this.JST[\"template\"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "", Hogan, {});
-}).call(this);
+define("template", ["hogan"], function(Hogan) {
+  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+});
 ~.strip
     end
 
@@ -113,25 +108,9 @@ this.JST[\"template\"] = new Hogan.Template({code: function (c,p,i) { var t=this
       template = HoganAssets::Tilt.new(scope.s_path) { "This is {{mustache}}" }
 
       assert_equal template.render(scope, {}), %Q~
-(function() {
-this.HoganTemplates || (this.HoganTemplates = {});
-this.HoganTemplates[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "", Hogan, {});
-}).call(this);
-~.strip
-    end
-
-    def test_strip_namespace_initialization
-      HoganAssets::Config.configure do |config|
-        config.skip_initialize_namespace = true
-      end
-      scope = make_scope '/myapp/app/assets/javascripts', 'path/to/template.mustache'
-
-      template = HoganAssets::Tilt.new(scope.s_path) { "This is {{mustache}}" }
-
-      assert_equal template.render(scope, {}), %Q~
-(function() {
-this.JST[\"path/to/template\"] = new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }}, "", Hogan, {});
-}).call(this);
+define("path/to/template", ["hogan"], function(Hogan) {
+  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+});
 ~.strip
     end
   end
