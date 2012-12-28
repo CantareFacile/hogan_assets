@@ -31,7 +31,7 @@ module HoganAssets
 
       assert_equal template.render(scope, {}), %Q~
 define("path/to/template", ["hogan"], function(Hogan) {
-  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+  return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
 });
 ~.strip
     end
@@ -43,7 +43,7 @@ define("path/to/template", ["hogan"], function(Hogan) {
 
       assert_equal template.render(scope, {}), %Q~
 define("path/to/template", ["hogan"], function(Hogan) {
-  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p>This is \");t.b(t.v(t.f(\"hamstache\",c,p,0)));t.b(\"</p>\");return t.fl(); }});
+  return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p>This is \");t.b(t.v(t.f(\"hamstache\",c,p,0)));t.b(\"</p>\");return t.fl(); }});
 });
 ~.strip
     end
@@ -59,7 +59,7 @@ define("path/to/template", ["hogan"], function(Hogan) {
 
       assert_equal template.render(scope, {}), %Q~
 define("path/to/template", ["hogan"], function(Hogan) {
-  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+  return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
 });
 ~.strip
     end
@@ -77,7 +77,7 @@ define("path/to/template", ["hogan"], function(Hogan) {
         " }
       assert_equal template.render(scope, {}), %Q~
 define("path/to/template", ["hogan"], function(Hogan) {
-  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p> This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));t.b(\" </p>\");return t.fl(); }});
+  return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"<p> This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));t.b(\" </p>\");return t.fl(); }});
 });
 ~.strip
     end
@@ -93,7 +93,7 @@ define("path/to/template", ["hogan"], function(Hogan) {
 
       assert_equal template.render(scope, {}), %Q~
 define("template", ["hogan"], function(Hogan) {
-  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+  return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
 });
 ~.strip
     end
@@ -109,7 +109,7 @@ define("template", ["hogan"], function(Hogan) {
 
       assert_equal template.render(scope, {}), %Q~
 define("path/to/template", ["hogan"], function(Hogan) {
-  return new Hogan.Template({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
+  return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); }});
 });
 ~.strip
     end

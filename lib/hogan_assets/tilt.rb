@@ -29,7 +29,7 @@ module HoganAssets
 
       output = []
       output << "define(#{template_path.name}, [\"hogan\"], function(Hogan) {"
-      output << "  return new Hogan.Template(#{compiled_template});"
+      output << "  return new Hogan(#{compiled_template});"
       output << "});"
       output.join("\n")
     end
