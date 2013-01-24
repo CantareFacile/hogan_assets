@@ -20,7 +20,7 @@ module HoganAssets
       end
 
       def path
-        @path ||= assets_path.join('javascripts', 'hogan.js')
+        @path ||= assets_path.join('javascripts', 'hogan.compiler.js')
       end
 
       def assets_path
