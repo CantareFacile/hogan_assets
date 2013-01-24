@@ -36,6 +36,18 @@ define("path/to/template", ["hogan"], function(Hogan) {
 ~.strip
     end
 
+    def test_remove_comments
+      scope = make_scope '/myapp/app/assets/javascripts', 'path/to/template.mustache'
+
+      template = HoganAssets::Tilt.new(scope.s_path) { "<!-- html comment -->This is {{mustache}}" }
+
+      assert_equal template.render(scope, {}), %Q~
+define("path/to/template", ["hogan"], function(Hogan) {
+  return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }});
+});
+~.strip
+    end
+
     def test_hamstache_render
       scope = make_scope '/myapp/app/assets/javascripts', 'path/to/template.hamstache'
 
