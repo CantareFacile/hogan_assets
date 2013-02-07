@@ -1,3 +1,16 @@
+## 1.5.0 (2013-2-06)
+
+* YAML configuration support - @apai4
+
+## 1.4.0 (2013-1-02)
+
+* **slimstache** support, use `HoganAssets::Config.slim_options` to set options for `slim` - @sars
+* Silence tilt require warning
+
+## 1.3.4 (2012-11-09)
+
+* Use `HoganAssets::Config.haml_options` to set options for `haml` - @lautis
+
 ## 1.3.3 (2012-09-10)
 
 * Use `HoganAssets::Config.template_namespace` to use a custom namespace for your templates - @adamstrickland

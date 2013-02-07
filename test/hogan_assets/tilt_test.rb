@@ -2,18 +2,7 @@ require 'test_helper'
 
 module HoganAssets
   class TiltTest < Test::Unit::TestCase
-   # Try to act like sprockets.
-    def make_scope(root, file)
-      Class.new do
-        define_method(:logical_path) { pathname.to_s.gsub(root + '/', '').gsub(/\..*/, '') }
-
-        define_method(:pathname) { Pathname.new(root) + file }
-
-        define_method(:root_path) { root }
-
-        define_method(:s_path) { pathname.to_s }
-      end.new
-    end
+    include TestSupport
 
     def teardown
       HoganAssets::Config.lambda_support = false
@@ -124,6 +113,24 @@ define("path/to/template", ["hogan"], function(Hogan) {
   return new Hogan({code: function (c,p,i) { var t=this;t.b(i=i||\"\");t.b(\"This is \");t.b(t.v(t.f(\"mustache\",c,p,0)));return t.fl(); },partials: {}, subs: {  }});
 });
 ~.strip
+    end
+
+    def test_haml_options
+      HoganAssets::Config.configure do |config|
+        config.haml_options[:ugly] = true
+      end
+      scope = make_scope '/myapp/app/assets/javascripts', 'path/to/template.hamstache'
+      template = HoganAssets::Tilt.new(scope.s_path) { "%p\n  This is {{mustache}}" }
+      assert_match /<p>/, template.render(scope, {})
+    end
+
+    def test_slim_options
+      HoganAssets::Config.configure do |config|
+        config.slim_options[:pretty] = false
+      end
+      scope = make_scope '/myapp/app/assets/javascripts', 'path/to/template.slimstache'
+      template = HoganAssets::Tilt.new(scope.s_path) { "p This is {{mustache}}" }
+      assert_match /<p>/, template.render(scope, {})
     end
   end
 end

@@ -6,9 +6,8 @@ module HoganAssets
     self.default_mime_type = 'application/javascript'
 
     def initialize_engine
-      require_template_library 'haml'
-    rescue LoadError
-      # haml not available
+      load_haml
+      load_slim
     end
 
     def evaluate(scope, locals, &block)
@@ -16,8 +15,11 @@ module HoganAssets
       template_namespace = HoganAssets::Config.template_namespace
 
       text = if template_path.is_hamstache?
-        raise "Unable to complile #{template_path.full_path} because haml is not available. Did you add the haml gem?" unless HoganAssets::Config.haml_available?
-        Haml::Engine.new(data, @options).render
+        raise "Unable to compile #{template_path.full_path} because haml is not available. Did you add the haml gem?" unless HoganAssets::Config.haml_available?
+        Haml::Engine.new(data, HoganAssets::Config.haml_options.merge(@options)).render
+      elsif template_path.is_slimstache?
+        raise "Unable to compile #{template_path.full_path} because slim is not available. Did you add the slim gem?" unless HoganAssets::Config.slim_available?
+        Slim::Template.new(HoganAssets::Config.slim_options.merge(@options)) { data }.render
       else
         data
       end
@@ -35,6 +37,18 @@ module HoganAssets
     end
 
     protected
+
+    def load_haml
+      require 'haml'
+    rescue LoadError
+      # haml not available
+    end
+
+    def load_slim
+      require 'slim'
+    rescue LoadError
+      # slim not available
+    end
 
     def prepare; end
 
@@ -73,6 +87,10 @@ module HoganAssets
 
       def is_hamstache?
         full_path.to_s.end_with? '.hamstache'
+      end
+
+      def is_slimstache?
+        full_path.to_s.end_with? '.slimstache'
       end
 
       def name

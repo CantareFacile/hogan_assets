@@ -57,7 +57,19 @@ And then execute:
 
     $ bundle
 
+Hamstache compilation can be configured using [Haml options](http://haml.info/docs/yardoc/Haml/Options.html). For example:
+
+    HoganAssets::Config.configure do |config|
+      config.haml_options[:ugly] = true
+    end
+
+## Slimstache!
+
+_slimstache_ is the also popular combination of `slim` and `mustache`. Works just like hamstache. Set the options via `slim_options`.
+
 ## Configuration
+
+You can configure options using either an intializer or with a YAML file (`config/hogan_assets.yml`). See `lib/hogan_assets/config.rb` for details.
 
 ### Lambda Support
 
@@ -103,6 +115,7 @@ By default, templates are recognized if they have an extension of `.mustache` (a
       config.template_extensions = %w(mustache hamstache stache)
     end
 
+
 ## Usage
 
 Templates are compiled to a global JavaScript object named `HoganTemplates`. To render `pages/person`:
@@ -121,6 +134,9 @@ I made this because I <3 **mustache** and want to use it in Rails. Follow me on 
 * @gleuch         (Greg Leuch)      : Mustache lambdas
 * @lautis         (Ville Lautanala) : hamstache fix
 * @adamstrickland (Adam Strickland) : Custom template namespace
+* @lautis         (Ville Lautanala) : haml_options configuration
+* @sars           (Rodion)          : slimstache support
+* @apai4                            : YAML configuration
 
 ## Contributing
 
