@@ -30,7 +30,7 @@ module HoganAssets
       template_name = scope.logical_path.inspect
 
       output = []
-      output << "define(#{template_path.name}, [\"hogan\"], function(Hogan) {"
+      output << "define(#{template_path.name.gsub(/"/, "'")}, ['hogan'], function(Hogan) {"
       output << "  return new Hogan(#{compiled_template});"
       output << "});"
       output.join("\n")
